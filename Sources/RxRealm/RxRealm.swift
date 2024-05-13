@@ -27,18 +27,22 @@ public enum RxRealmError: Error {
 public protocol NotificationEmitter {
   associatedtype ElementType: RealmCollectionValue
 
-  /**
-   Returns a `NotificationToken`, which while retained enables change notifications for the current collection.
-
-   - returns: `NotificationToken` - retain this value to keep notifications being emitted for the current collection.
-   */
-  func observe(keyPaths: [String]?,
-               on queue: DispatchQueue?,
-               _ block: @escaping (RealmCollectionChange<Self>) -> Void) -> NotificationToken
-
   func toArray() -> [ElementType]
 
   func toAnyCollection() -> AnyRealmCollection<ElementType>
+}
+
+extension NotificationEmitter {
+    /**
+     Returns a `NotificationToken`, which while retained enables change notifications for the current collection.
+
+     - returns: `NotificationToken` - retain this value to keep notifications being emitted for the current collection.
+     */
+    func observe(keyPaths: [String]?,
+                 on queue: DispatchQueue?,
+                 _ block: @escaping (RealmCollectionChange<Self>) -> Void) -> NotificationToken {
+        return .init()
+    }
 }
 
 extension List: NotificationEmitter {
